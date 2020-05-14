@@ -6,9 +6,13 @@ It will user either a sqlite3 (default) or mysql database.
 Mysql database must already exist.
 It will create the needed table.
 
+You can chhose database and other options in the settings.py
+
 cookbook.py is a experimental project to practice my python programming
 
 Enjoy!
+
+
 
 Required:
 Python3.8
