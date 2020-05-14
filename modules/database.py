@@ -32,7 +32,7 @@ if settings.DB_TYPE == 'sqlite3':
                     cook integer not null default 0)')
                     conn.commit()
 
-                    conn.execute('insert into recipes (title, ingredients, instructions) values \
+                    cur.execute('insert into recipes (title, ingredients, instructions) values \
                     ("a test recipe","The database requires at least one entry.", \
                     "This will be removed when you add your first recipe")')
 
@@ -89,6 +89,15 @@ if settings.DB_TYPE == 'sqlite3':
 
             except (Error, FileNotFoundError) as error:
                 print(error)
+
+        def first_recipe(self):
+            conn = sqlite3.connect('Recipes.db')
+            cursor = conn.cursor()
+            cursor.execute('select id, title from recipes limit 1')
+            result = cursor.fetchone()
+            letter = result[1][0]
+            recipe_id = result[0]
+            return letter, recipe_id
 
 elif settings.DB_TYPE == 'mysql':
 
@@ -195,6 +204,20 @@ elif settings.DB_TYPE == 'mysql':
                 cursor.connection.commit()
                 self.conn.close()
                 return cursor.lastrowid
+            except (pymysql.InternalError) as error:
+                print(error)
+
+        def first_recipe(self):
+            try:
+                self.conn = pymysql.connect(host=settings.HOST, user=settings.USER, \
+                passwd=settings.PASSWD, database=settings.DB, port=settings.PORT)
+
+                cursor = self.conn.cursor()
+                cursor.execute('select id, title from recipes limit 1')
+                result = cursor.fetchone()
+                letter = result[1][0]
+                recipe_id = result[0]
+                return letter, recipe_id
             except (pymysql.InternalError) as error:
                 print(error)
 

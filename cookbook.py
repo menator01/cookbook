@@ -143,8 +143,9 @@ class Child3:
     def __init__(self):
         pass
 
-    def titlemenu(self, titleframe, recipeframe, letter='a'):
+    def titlemenu(self, titleframe, recipeframe, letter=db.Database().first_recipe()[0]):
         '''title menu'''
+
         ###### Query the database for recipe titles from our letter menu defaults to a ######
         threading.Thread(target=playsound, args=(settings.BTN,)).start()
         data = db.Database().title_query(letter=letter)
@@ -195,8 +196,9 @@ class Child4:
     def __init__(self):
         pass
 
-    def recipe(self, recipeframe, recipe_id=1):
+    def recipe(self, recipeframe, recipe_id=db.Database().first_recipe()[1]):
         '''Docstring'''
+
         threading.Thread(target=playsound, args=(settings.LNK,)).start()
 
         data = db.Database().id_query(recipe_id)
